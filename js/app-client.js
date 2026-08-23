@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('a[href]').forEach(a=>{const h=a.getAttribute('href');if(!h||h.startsWith('#')||h.startsWith('tel:')||h.startsWith('http')||h==='#')return;a.addEventListener('click',e=>{if(a.target==='_blank')return;e.preventDefault();document.body.classList.add('pp-leaving');setTimeout(()=>location.href=h,120);});});});
