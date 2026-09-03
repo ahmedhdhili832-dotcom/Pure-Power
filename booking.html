@@ -1,1 +1,55 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Réservation | Pure & Power</title><link rel="stylesheet" href="./css/style.css"><link rel="stylesheet" href="./css/pages.css"><link rel="stylesheet" href="./css/booking.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap"></head><body><header class="page-nav"><div class="container nav-inner"><a class="brand" href="index.html"><span class="brand-mark">P&P</span>PURE & POWER</a><nav class="page-links"><a href="index.html">Accueil</a><a href="services.html">Services</a><a href="tarifs.html">Tarifs</a><a href="contact.html">Contact</a><a class="active" href="booking.html">Réserver</a><a href="login.html">Espace client</a></nav></div></header><main class="page-main"><div class="container"><div class="hero-mini"><span class="label">Réservation</span><h1>Prendre <span>rendez-vous</span></h1><p>Choisissez votre prestation, votre date, votre horaire et votre adresse.</p></div><div class="form-wrap"><form id="bookingForm"><div class="form-grid"><div class="form-group"><label>Prénom</label><input id="firstName" required></div><div class="form-group"><label>Nom</label><input id="lastName" required></div><div class="form-group"><label>Téléphone</label><input id="phone" required></div><div class="form-group"><label>Email</label><input id="email" type="email" required></div><div class="form-group"><label>Prestation</label><select id="service" required><option value="">Choisir...</option><option>Ménage courant — 20 €/h</option><option>Ménage approfondi — 25 €/h</option><option>Nettoyage des vitres — dès 5 €/vitre</option><option>Repassage — sur devis</option><option>Forfait Studio — dès 35 €</option><option>Forfait T2 — dès 45 €</option><option>Forfait T3 — dès 60 €</option></select></div><div class="form-group"><label>Date</label><input id="bookingDate" type="date" required></div><div class="form-group"><label>Horaire</label><select id="bookingTime" required><option value="">Choisir...</option><option>08:00</option><option>10:00</option><option>12:00</option><option>14:00</option><option>16:00</option></select></div><div class="form-group"><label>Ville</label><input id="city" value="Ajaccio" required></div><div class="form-group full"><label>Adresse</label><input id="address" placeholder="Votre adresse" required></div><div class="form-group full"><label>Besoins particuliers</label><textarea id="needs" rows="5" placeholder="Décrivez votre besoin..."></textarea></div></div><div class="form-actions"><button class="btn btn-green" type="submit">Confirmer la demande →</button><a class="btn btn-outline" href="contact.html">Une question ?</a></div></form></div></div></main><footer class="footer">Pure & Power — Ajaccio • 07 58 29 80 26</footer><script src="./js/site.js"></script></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Demande de prestation | Pure & Power</title>
+<link rel="stylesheet" href="./css/style.css"><link rel="stylesheet" href="./css/pages.css"><link rel="stylesheet" href="./css/booking.css"><link rel="stylesheet" href="./css/premium.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<style>
+.quote-box{display:none;margin-top:24px;padding:28px;border:1px solid #dce7df;border-radius:22px;background:linear-gradient(145deg,#fff,#f5f8f4);box-shadow:0 18px 45px rgba(16,42,67,.1)}
+.quote-box.show{display:block;animation:ppReveal .45s ease both}.quote-price{font-size:42px;font-weight:800;color:#2F6B4F;margin:8px 0}.quote-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0}.quote-grid div{padding:12px;border-radius:12px;background:#fff}.decision{display:flex;gap:12px;flex-wrap:wrap}.btn-danger{background:#fff;border:1px solid #c65b5b;color:#a33d3d}.contract-note{font-size:13px;color:#64748b}
+@media(max-width:650px){.quote-grid{grid-template-columns:1fr}.quote-price{font-size:34px}}
+</style>
+</head>
+<body>
+<header class="page-nav"><div class="container nav-inner"><a class="brand" href="index.html"><span class="brand-mark">P&P</span>PURE & POWER</a><nav class="page-links"><a href="index.html">Accueil</a><a href="services.html">Services</a><a href="tarifs.html">Tarifs</a><a href="contact.html">Contact</a><a class="active" href="booking.html">Demander un devis</a></nav></div></header>
+<main class="page-main"><div class="container">
+<div class="hero-mini"><span class="label">Demande personnalisée</span><h1>Décrivez votre <span>besoin</span></h1><p>Remplissez le formulaire. Le prix estimatif s'affiche immédiatement avant votre décision.</p></div>
+<div class="form-wrap">
+<form id="bookingForm" name="demande-prestation" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<input type="hidden" name="form-name" value="demande-prestation"><input type="hidden" name="subject" data-remove-prefix value="Nouvelle demande Pure & Power">
+<p style="display:none"><label>Ne pas remplir: <input name="bot-field"></label></p>
+<div class="form-grid">
+<div class="form-group"><label>Prénom</label><input id="firstName" name="firstName" required></div>
+<div class="form-group"><label>Nom</label><input id="lastName" name="lastName" required></div>
+<div class="form-group"><label>Téléphone</label><input id="phone" name="phone" type="tel" required></div>
+<div class="form-group"><label>Email</label><input id="email" name="email" type="email" required></div>
+<div class="form-group"><label>Type de prestation</label><select id="service" name="service" required><option value="">Choisir...</option><option value="home-basic">Aide à domicile — ménage courant</option><option value="home-deep">Aide à domicile — ménage approfondi</option><option value="office">Nettoyage — bureaux</option><option value="windows">Nettoyage — vitres</option><option value="ironing">Aide à domicile — repassage</option></select></div>
+<div class="form-group"><label>Durée / quantité</label><select id="quantity" name="quantity" required><option value="1">1 heure</option><option value="2">2 heures</option><option value="3">3 heures</option><option value="4">4 heures</option><option value="5">5 heures</option></select></div>
+<div class="form-group"><label>Date souhaitée</label><input id="bookingDate" name="date" type="date" required></div>
+<div class="form-group"><label>Horaire souhaité</label><input id="bookingTime" name="time" type="time" required></div>
+<div class="form-group full"><label>Adresse d'intervention</label><input id="address" name="address" placeholder="Adresse complète" required></div>
+<div class="form-group full"><label>Informations complémentaires</label><textarea id="needs" name="needs" rows="5" placeholder="Surface, nombre de pièces, contraintes, matériel disponible..."></textarea></div>
+</div>
+<div class="form-actions"><button class="btn btn-green" type="submit">Calculer mon prix →</button><a class="btn btn-outline" href="contact.html">Une question ?</a></div>
+</form>
+<div id="quoteBox" class="quote-box" aria-live="polite"><span class="label">Votre estimation</span><h2 id="quoteTitle">Proposition Pure & Power</h2><div class="quote-price" id="quotePrice">0 €</div><div class="quote-grid"><div><strong>Client</strong><br><span id="qClient">—</span></div><div><strong>Prestation</strong><br><span id="qService">—</span></div><div><strong>Date</strong><br><span id="qDate">—</span></div><div><strong>Horaire</strong><br><span id="qTime">—</span></div></div><p id="quoteDetails"></p><p class="contract-note">En cliquant sur « J'accepte », votre demande est enregistrée avec le statut « Acceptée ». Un contrat récapitulatif peut ensuite être envoyé à l'adresse email indiquée.</p><div class="decision"><button id="acceptQuote" class="btn btn-green" type="button">✓ J'accepte et je confirme</button><button id="rejectQuote" class="btn btn-danger" type="button">✕ Je refuse</button></div><p id="decisionStatus" style="font-weight:700;margin-top:15px"></p></div>
+</div></div></main>
+<footer class="footer">Pure & Power • Service professionnel</footer>
+<script src="./js/site.js"></script>
+<script>
+(function(){
+ const $=s=>document.querySelector(s), prices={"home-basic":20,"home-deep":25,"office":25,"windows":5,"ironing":20};
+ const labels={"home-basic":"Aide à domicile — ménage courant","home-deep":"Aide à domicile — ménage approfondi","office":"Nettoyage — bureaux","windows":"Nettoyage — vitres","ironing":"Aide à domicile — repassage"};
+ const form=$("#bookingForm"), box=$("#quoteBox"), date=$("#bookingDate"); if(date) date.min=new Date().toISOString().slice(0,10);
+ let draft=null;
+ form.addEventListener("submit",function(e){e.preventDefault();
+   const service=$("#service").value,q=Number($("#quantity").value||1), unit=prices[service]||0;
+   draft={id:"PP-"+Date.now(),firstName:$("#firstName").value.trim(),lastName:$("#lastName").value.trim(),phone:$("#phone").value.trim(),email:$("#email").value.trim().toLowerCase(),service:labels[service],unitPrice:unit,quantity:q,total:unit*q,date:date.value,time:$("#bookingTime").value,address:$("#address").value.trim(),needs:$("#needs").value.trim(),status:"Proposition envoyée",paymentStatus:"En attente",contractStatus:"En préparation",createdAt:new Date().toISOString()};
+   $("#qClient").textContent=draft.firstName+" "+draft.lastName; $("#qService").textContent=draft.service; $("#qDate").textContent=draft.date; $("#qTime").textContent=draft.time; $("#quotePrice").textContent=draft.total.toFixed(2)+" €"; $("#quoteDetails").textContent="Tarif estimatif : "+draft.unitPrice+" € × "+draft.quantity+" = "+draft.total+" €. Le prix final peut être ajusté si les informations nécessitent une vérification."; box.classList.add("show"); box.scrollIntoView({behavior:"smooth",block:"center"});
+ });
+ $("#rejectQuote").addEventListener("click",()=>{if(!draft)return;draft.status="Refusée";localStorage.setItem("pp_current_booking",JSON.stringify(draft));$("#decisionStatus").textContent="Votre refus a été enregistré. Vous pouvez refaire une demande quand vous le souhaitez.";$("#decisionStatus").style.color="#a33d3d";});
+ $("#acceptQuote").addEventListener("click",async()=>{if(!draft)return;draft.status="Acceptée";localStorage.setItem("pp_current_booking",JSON.stringify(draft));const all=JSON.parse(localStorage.getItem("pp_bookings")||"[]");all.push(draft);localStorage.setItem("pp_bookings",JSON.stringify(all));$("#decisionStatus").textContent="✓ Demande acceptée. Votre récapitulatif est prêt.";$("#decisionStatus").style.color="#2F6B4F";setTimeout(()=>location.href="contract.html",500);});
+})();
+</script>
+</body></html>
