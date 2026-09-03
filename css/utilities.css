@@ -1,0 +1,22 @@
+/* PURE & POWER — Small utility layer */
+
+.pp-container{width:min(calc(100% - 32px),1180px);margin-inline:auto}
+.pp-section{padding:96px 0}
+.pp-stack{display:flex;flex-direction:column;gap:14px}
+.pp-center{text-align:center}
+.pp-flex{display:flex;align-items:center}
+.pp-wrap{flex-wrap:wrap}
+.pp-between{justify-content:space-between}
+.pp-gap-sm{gap:8px}
+.pp-gap-md{gap:16px}
+.pp-gap-lg{gap:28px}
+.pp-hidden{display:none!important}
+.pp-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.is-invalid{border-color:#A33D3D!important;box-shadow:0 0 0 4px rgba(163,61,61,.08)!important}
+.animate-on-scroll{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}
+.animate-on-scroll.is-visible{opacity:1;transform:none}
+.page-loaded{animation:ppPageIn .35s ease both}
+@keyframes ppPageIn{from{opacity:.92}to{opacity:1}}
+
+@media(prefers-reduced-motion:reduce){.animate-on-scroll,.page-loaded{animation:none!important;transition:none!important}}
