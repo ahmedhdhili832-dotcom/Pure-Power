@@ -1,37 +1,63 @@
 # PURE & POWER
 
-## Plateforme web professionnelle de services de nettoyage
+## Plateforme web professionnelle de services de proximité
 
-**PURE & POWER** est une plateforme web moderne dédiée aux prestations de nettoyage professionnel à **Ajaccio et alentours**.
+**PURE & POWER** est une plateforme web moderne dédiée à l’aide à domicile et au nettoyage professionnel à **Ajaccio et alentours**.
 
-Le projet propose une expérience complète pour présenter les prestations, demander un devis, gérer les réservations et accéder à un espace client.
+Le projet est organisé comme un véritable parcours client : découverte de la marque → présentation → choix du service → détail → devis/réservation → espace client.
 
 ## 🚀 Live Demo
 
 🌐 **https://pure-powe.netlify.app**
 
-## ✨ Fonctionnalités
+## ✨ Expérience & design
 
-- 🏠 Page d'accueil moderne et responsive
-- 🧹 Présentation des prestations de nettoyage
-- 💬 Demande de devis personnalisé
-- 📅 Réservation de prestations
-- 👤 Création de compte client
-- 🔐 Connexion à l'espace client
-- 📊 Tableau de bord client
-- 📋 Gestion des réservations
-- 👤 Gestion du profil
-- 💳 Page de paiement
-- ✅ Confirmation de réservation
-- 📞 Contact direct
-- 📱 Interface responsive mobile / tablette / desktop
-- ✨ Animations et interactions JavaScript
+- 🎨 Design premium : bleu nuit, vert sauge et touches champagne
+- 🧭 Parcours client clair et découpé en pages
+- 🏠 Choix entre **Aide à domicile** et **Nettoyage professionnel**
+- 💎 Cartes modernes, ombres douces et effets glassmorphism légers
+- ✨ Animations d’apparition et micro-interactions au survol
+- 📱 Responsive mobile / tablette / desktop
+- ♿ Respect de `prefers-reduced-motion`
+- 🔐 Architecture prête pour un espace client et une administration
 
-## 📄 Pages
+## 📄 Parcours principal
+
+```text
+QR CODE
+  ↓
+Accueil
+  ↓
+Présentation
+  ↓
+Choix du service
+  ├── Aide à domicile
+  │    ├── Entretien du logement
+  │    ├── Tâches ménagères
+  │    ├── Aide à la toilette simple
+  │    ├── Courses & accompagnement
+  │    └── Présence rassurante
+  │
+  └── Nettoyage professionnel
+       ├── Bureaux & locaux
+       ├── Magasins & boutiques
+       ├── Restaurants
+       ├── Airbnb & locations
+       └── Vitres & grand nettoyage
+             ↓
+        Devis / Réservation
+             ↓
+        Confirmation
+             ↓
+        Espace client
+```
+
+## 📚 Pages
 
 | Page | Fichier |
 |---|---|
 | Accueil | `index.html` |
+| Présentation | `presentation.html` |
 | Prestations | `services.html` |
 | Engagement | `experience.html` |
 | Tarifs & devis | `tarifs.html` |
@@ -50,10 +76,29 @@ Le projet propose une expérience complète pour présenter les prestations, dem
 
 - HTML5
 - CSS3
-- JavaScript (ES6+)
+- JavaScript ES6+
 - Google Fonts
 - Responsive Web Design
-- GitHub / Netlify compatible
+- GitHub Pages / Netlify compatible
+
+## 🎨 Design system
+
+**Couleurs principales**
+
+- Bleu nuit — confiance et professionnalisme
+- Vert sauge — service, sérénité et proximité
+- Champagne — détail premium et élégance
+- Blanc cassé — confort visuel
+
+Les styles premium sont regroupés dans :
+
+```text
+css/
+├── style.css
+├── pages.css
+├── premium.css
+└── services-premium.css
+```
 
 ## 📁 Structure
 
@@ -61,6 +106,7 @@ Le projet propose une expérience complète pour présenter les prestations, dem
 Pure-Power/
 │
 ├── index.html
+├── presentation.html
 ├── services.html
 ├── experience.html
 ├── tarifs.html
@@ -87,7 +133,9 @@ Pure-Power/
 │
 ├── css/
 │   ├── style.css
-│   └── pages.css
+│   ├── pages.css
+│   ├── premium.css
+│   └── services-premium.css
 │
 └── js/
     ├── app.js
@@ -95,28 +143,6 @@ Pure-Power/
     ├── site.js
     └── sanity.js
 ```
-
-## 🎯 Parcours utilisateur
-
-```text
-Accueil
-  ↓
-Prestations
-  ↓
-Choix du service
-  ↓
-Demande de devis / réservation
-  ↓
-Confirmation
-  ↓
-Espace client
-  ↓
-Réservations • Profil • Paiement
-```
-
-## 📱 Responsive
-
-L'interface est conçue pour fonctionner sur ordinateurs, laptops, smartphones et tablettes.
 
 ## 🔒 Sécurité
 
