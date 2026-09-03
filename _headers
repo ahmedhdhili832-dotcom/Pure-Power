@@ -1,0 +1,6 @@
+/*
+  Netlify production headers
+*/
+/*
+  Keep public site location-neutral and disable browser geolocation access.
+*/
