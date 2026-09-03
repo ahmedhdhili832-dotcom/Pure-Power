@@ -1,3 +1,0 @@
-/* Localisation neutralisée : le site ne met pas en avant une ville ou une zone géographique. */
-:root{--pp-ink:#102A43;--pp-green:#2F6B4F;--pp-sage:#6F9B82;--pp-gold:#C79A52;--pp-cream:#F7F5EF}
-.location-badge,.area,.service-area,.city,.address-area,[data-location]{display:none!important}
