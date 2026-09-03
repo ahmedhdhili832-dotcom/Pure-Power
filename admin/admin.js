@@ -1,21 +1,17 @@
-(() => {
-  'use strict';
-  const BOOKINGS_KEY='purePowerBooking';
-  const USERS_KEY='pp_users';
-  const read=(key,fallback)=>{try{const v=localStorage.getItem(key);return v?JSON.parse(v):fallback}catch{return fallback}};
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-  const money=n=>`${Number(n||0).toLocaleString('fr-FR')} €`;
-  const date=v=>v?new Date(`${v}T00:00:00`).toLocaleDateString('fr-FR'):'—';
-  const users=read(USERS_KEY,[]);
-  const current=read(BOOKINGS_KEY,null);
-  const bookings=Array.isArray(read('purePowerBookings',null))?read('purePowerBookings',[]):(current?[current]:[]);
-  const revenueMap={'Ménage courant — 20 €/h':20,'Ménage approfondi — 25 €/h':25,'Forfait Studio — dès 35 €':35,'Forfait T2 — dès 45 €':45,'Forfait T3 — dès 60 €':60};
-  const revenue=bookings.reduce((s,b)=>s+(revenueMap[b.service]||0),0);
-  const pending=bookings.filter(b=>!b.status||b.status==='En attente').length;
-  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
-  set('statClients',users.length);set('statBookings',bookings.length);set('statPending',pending);set('statRevenue',money(revenue));set('year',new Date().getFullYear());
-  const body=document.getElementById('recentBookings');
-  if(body&&bookings.length){body.innerHTML=bookings.slice(-6).reverse().map(b=>`<tr><td>${esc(b.name||`${b.firstName||''} ${b.lastName||''}`.trim()||'Client')}</td><td>${esc(b.service||'—')}</td><td>${esc(date(b.date))}</td><td><span class="badge">${esc(b.status||'En attente')}</span></td></tr>`).join('')}
-  const logout=document.getElementById('logout');
-  if(logout)logout.addEventListener('click',()=>{localStorage.removeItem('pp_admin_session');window.location.href='../index.html'});
+(()=>{
+'use strict';
+const KEY='pp_admin_session';
+const getKey=()=>sessionStorage.getItem(KEY)||'';
+const esc=s=>String(s??'').replace(/[&<>\"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const money=n=>`${Number(n||0).toLocaleString('fr-FR',{minimumFractionDigits:2})} €`;
+const date=v=>v?new Date(`${v}T00:00:00`).toLocaleDateString('fr-FR'):'—';
+const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+function showLogin(){document.body.insertAdjacentHTML('afterbegin',`<div id="adminLogin" style="position:fixed;inset:0;z-index:99999;background:rgba(15,29,43,.96);display:grid;place-items:center;padding:20px"><form id="adminLoginForm" style="width:min(430px,100%);background:#fff;border-radius:24px;padding:32px;box-shadow:0 25px 80px rgba(0,0,0,.3)"><div style="font-weight:800;letter-spacing:.08em;color:#2F6B4F">PURE & POWER</div><h1 style="margin:8px 0">Administration</h1><p style="color:#64748b">Entrez la clé administrateur configurée dans Netlify.</p><input id="adminKey" type="password" required placeholder="Clé administrateur" style="width:100%;box-sizing:border-box;padding:14px;border:1px solid #dbe3df;border-radius:12px;margin:10px 0 14px"><button class="btn btn-green" style="width:100%;border:0;padding:14px;border-radius:12px" type="submit">Ouvrir le dashboard</button><p id="adminLoginError" style="color:#a33d3d;font-weight:700"></p></form></div>`);document.getElementById('adminLoginForm').onsubmit=async e=>{e.preventDefault();const key=document.getElementById('adminKey').value;try{const r=await fetch('../.netlify/functions/admin-bookings',{headers:{Authorization:`Bearer ${key}`}});if(!r.ok)throw new Error();sessionStorage.setItem(KEY,key);document.getElementById('adminLogin').remove();await load();}catch{document.getElementById('adminLoginError').textContent='Clé invalide ou backend non configuré.'}}}
+async function api(path,options={}){const headers={...(options.headers||{}),Authorization:`Bearer ${getKey()}`,'Content-Type':'application/json'};const r=await fetch(`../.netlify/functions/${path}`,{...options,headers});const d=await r.json();if(!r.ok)throw new Error(d.error||'Erreur');return d}
+function renderRows(bookings){const body=document.getElementById('adminBookings');if(!body)return;if(!bookings.length){body.innerHTML='<tr><td colspan="7" class="empty">Aucune demande.</td></tr>';return}body.innerHTML=bookings.map(b=>`<tr><td>${esc(`${b.client_first_name||''} ${b.client_last_name||''}`.trim()||'Client')}</td><td>${esc(b.service)}</td><td>${esc(date(b.booking_date))}</td><td>${esc(b.booking_time||'—')}</td><td>${esc(b.address||'—')}</td><td><span class="badge">${esc(b.status)}</span></td><td>${b.status==='pending'?`<button class="approve" data-id="${esc(b.id)}">✓ Approuver & envoyer PDF</button><button class="reject" data-id="${esc(b.id)}">✕ Refuser</button>`:b.status==='approved'?'<span>Contrat envoyé</span>':esc(b.status)}</td></tr>`).join('');
+body.querySelectorAll('.approve').forEach(btn=>btn.onclick=()=>action(btn.dataset.id,'approve',btn));body.querySelectorAll('.reject').forEach(btn=>btn.onclick=()=>action(btn.dataset.id,'reject',btn));}
+async function action(id,action,btn){if(action==='approve'&&!confirm('Approuver la demande et envoyer le contrat PDF par email ?'))return;btn.disabled=true;btn.textContent='Traitement…';try{const d=await api('admin-booking',{method:'POST',body:JSON.stringify({id,action})});alert(action==='approve'?(d.emailSent?'✓ Contrat PDF envoyé au client.':'Demande approuvée. Email non envoyé : vérifiez RESEND_API_KEY et MAIL_FROM.'):'Demande refusée.');await load()}catch(e){alert(e.message);btn.disabled=false}}
+async function load(){try{const d=await api('admin-bookings');const b=d.bookings||[];const pending=b.filter(x=>x.status==='pending').length;const revenue=b.reduce((s,x)=>s+Number(x.total_price||0),0);set('statClients',new Set(b.map(x=>x.email)).size);set('statBookings',b.length);set('statPending',pending);set('statRevenue',money(revenue));set('year',new Date().getFullYear());const recent=document.getElementById('recentBookings');if(recent)recent.innerHTML=b.slice(0,6).map(x=>`<tr><td>${esc(`${x.client_first_name||''} ${x.client_last_name||''}`.trim())}</td><td>${esc(x.service)}</td><td>${esc(date(x.booking_date))}</td><td><span class="badge">${esc(x.status)}</span></td></tr>`).join('')||'<tr><td colspan="4" class="empty">Aucune demande</td></tr>';renderRows(b)}catch(e){if(e.message.includes('Accès')){sessionStorage.removeItem(KEY);showLogin()}else console.error(e)}}
+const logout=document.getElementById('logout');if(logout)logout.onclick=()=>{sessionStorage.removeItem(KEY);location.href='../index.html'};
+if(!getKey())showLogin();else load();
 })();
