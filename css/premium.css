@@ -1,0 +1,36 @@
+/* PURE & POWER — Premium visual layer */
+:root{--pp-ink:#102A43;--pp-green:#2F6B4F;--pp-sage:#6F9B82;--pp-gold:#C79A52;--pp-cream:#F7F5EF;--pp-line:#E3E9E5}
+body{background:var(--pp-cream)}
+::selection{background:var(--pp-green);color:#fff}
+.site-header,.page-nav{box-shadow:0 8px 30px rgba(16,42,67,.06);transition:box-shadow .3s ease,background .3s ease}
+.site-header.scrolled{box-shadow:0 12px 35px rgba(16,42,67,.12)}
+.logo-mark,.brand-mark{background:linear-gradient(135deg,var(--pp-ink),var(--pp-green));box-shadow:0 10px 24px rgba(47,107,79,.2)}
+.btn-primary,.nav-cta{background:linear-gradient(135deg,var(--pp-ink),#1C4A5A);box-shadow:0 12px 28px rgba(16,42,67,.18)}
+.btn-primary:hover,.nav-cta:hover{background:linear-gradient(135deg,var(--pp-green),#3E7F60);transform:translateY(-3px)}
+.btn-green{background:linear-gradient(135deg,var(--pp-green),#3E7F60);box-shadow:0 12px 28px rgba(47,107,79,.2);transition:transform .25s ease,box-shadow .25s ease}
+.btn-green:hover{transform:translateY(-3px);box-shadow:0 18px 34px rgba(47,107,79,.25)}
+.hero{background:radial-gradient(circle at 82% 18%,rgba(111,155,130,.16),transparent 28%),linear-gradient(135deg,#F5F8F5 0%,#fff 52%,#F0F5F1 100%)}
+.hero::before{background:radial-gradient(circle,rgba(199,154,82,.12),transparent 68%);filter:none}
+.hero h1,.hero-mini h1{letter-spacing:-.045em}
+.hero h1 span,.hero-mini h1 span{background:linear-gradient(90deg,var(--pp-green),var(--pp-sage));-webkit-background-clip:text;background-clip:text;color:transparent}
+.experience-badge{border-color:rgba(47,107,79,.16);box-shadow:0 12px 30px rgba(16,42,67,.08)}
+.badge-icon{background:linear-gradient(135deg,var(--pp-green),var(--pp-sage))}
+.hero-image{border-radius:32px;box-shadow:0 30px 70px rgba(16,42,67,.15);overflow:hidden;transform:perspective(1000px) rotateY(-2deg);transition:transform .6s ease,box-shadow .6s ease}
+.hero-image:hover{transform:perspective(1000px) rotateY(0) translateY(-6px);box-shadow:0 38px 85px rgba(16,42,67,.2)}
+.image-placeholder{background:linear-gradient(145deg,#102A43,#2F6B4F);min-height:430px;position:relative;overflow:hidden}
+.image-placeholder::before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle at 30% 35%,rgba(255,255,255,.18),transparent 22%),radial-gradient(circle at 80% 70%,rgba(199,154,82,.22),transparent 24%);animation:ppFloat 9s ease-in-out infinite}
+.image-placeholder span,.image-placeholder small{position:relative;z-index:1}
+.floating-card{border:1px solid rgba(255,255,255,.65);box-shadow:0 18px 40px rgba(16,42,67,.14);backdrop-filter:blur(12px);animation:ppFloat 5s ease-in-out infinite}
+.service-card,.card,.contact-card,.stat,.form-wrap{border-color:var(--pp-line);box-shadow:0 14px 35px rgba(16,42,67,.07);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .35s ease}
+.service-card:hover,.card:hover,.contact-card:hover,.stat:hover{transform:translateY(-8px);box-shadow:0 24px 50px rgba(16,42,67,.13);border-color:rgba(47,107,79,.25)}
+.service-icon{transition:transform .35s ease}.service-card:hover .service-icon{transform:scale(1.12) rotate(-3deg)}
+.section-label,.label{color:var(--pp-green)}
+.area,.cta{position:relative;overflow:hidden}.area::before,.cta::before{content:"";position:absolute;width:360px;height:360px;border-radius:50%;right:-120px;top:-180px;background:rgba(199,154,82,.09)}
+.cta{background:linear-gradient(135deg,#102A43,#234F57 58%,#2F6B4F)!important}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--pp-green)!important;box-shadow:0 0 0 4px rgba(47,107,79,.1)!important}
+.page-main{background:radial-gradient(circle at 10% 10%,rgba(111,155,130,.08),transparent 25%),linear-gradient(135deg,#F7F9F7,#fff 60%,#F3F6F3)}
+.hero-mini{animation:ppReveal .7s both}.grid .card,.grid .service-link-card{animation:ppReveal .65s both}.grid>*:nth-child(2){animation-delay:.06s}.grid>*:nth-child(3){animation-delay:.12s}.grid>*:nth-child(4){animation-delay:.18s}.grid>*:nth-child(5){animation-delay:.24s}.grid>*:nth-child(6){animation-delay:.30s}
+@keyframes ppReveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ppFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:700px){.hero-image{transform:none}.image-placeholder{min-height:320px}.floating-card{animation:none}.section{padding:78px 0}}
