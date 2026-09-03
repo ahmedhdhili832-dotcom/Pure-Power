@@ -1,0 +1,39 @@
+name: Build Pure & Power Admin APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'admin_app/**'
+      - '.github/workflows/build-admin-apk.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate Android platform files
+        working-directory: admin_app
+        run: flutter create --platforms=android --project-name=pure_power_admin .
+
+      - name: Install dependencies
+        working-directory: admin_app
+        run: flutter pub get
+
+      - name: Build release APK
+        working-directory: admin_app
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: pure-power-admin-apk
+          path: admin_app/build/app/outputs/flutter-apk/app-release.apk
