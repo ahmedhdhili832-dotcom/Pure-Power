@@ -4,25 +4,83 @@
 
 **PURE & POWER** est une plateforme web moderne dédiée à l’aide à domicile et au nettoyage professionnel.
 
-Le projet fonctionne comme un véritable parcours client : découverte → choix du service → devis → demande → validation par l’administration → contrat PDF par email → confirmation client.
+Le projet suit un parcours client complet : découverte → choix du service → devis → demande → validation par l’administration → contrat PDF → confirmation client → paiement.
 
-## 🚀 SITES LIVE
+## 🚀 SITES
 
 ### 👤 Site client
-🌐 **https://pure-powe.netlify.app/**
+https://pure-powe.netlify.app/
 
-### 🛡️ Site administration
-🌐 **https://pure-powe.netlify.app/admin/**
+### 🛡️ Administration
+https://pure-powe.netlify.app/admin/
 
-### 📄 Page de confirmation du contrat
-🌐 **https://pure-powe.netlify.app/contract-confirmation.html**
+### 📄 Confirmation de contrat
+https://pure-powe.netlify.app/contract-confirmation.html
 
-### 💻 Repository GitHub
-🌐 **https://github.com/ahmedhdhili832-dotcom/Pure-Power**
+### 💻 Repository
+https://github.com/ahmedhdhili832-dotcom/Pure-Power
 
-> Les liens ci-dessus pointent vers le déploiement Netlify du projet. Après chaque push sur `main`, Netlify peut redéployer automatiquement le site.
+## 🧱 Architecture du projet
 
-## 🔄 WORKFLOW RÉEL
+Le code est organisé par responsabilité afin d’éviter un gros fichier unique et de faciliter les évolutions.
+
+```text
+Pure-Power/
+│
+├── *.html                     # Pages publiques et espace client
+│
+├── admin/                     # Interface d’administration
+│   ├── *.html
+│   ├── admin.css
+│   └── admin.js
+│
+├── css/                       # Système visuel
+│   ├── style.css              # Base historique / styles globaux
+│   ├── premium.css             # Couche premium + imports des modules
+│   ├── components.css          # Composants réutilisables
+│   ├── utilities.css           # Classes utilitaires et responsive
+│   ├── pages.css               # Styles spécifiques aux pages
+│   └── services-premium.css    # Styles spécifiques aux prestations
+│
+├── js/                        # JavaScript côté navigateur
+│   ├── app.js                 # Bootstrap de l’application
+│   ├── site.js                # Logique historique du site / espace client
+│   ├── app-client.js          # Initialisation client
+│   ├── booking-production.js   # Flux de demande de prestation
+│   └── modules/               # Modules JS indépendants
+│       ├── navigation.js
+│       ├── header.js
+│       ├── reveal.js
+│       ├── media.js
+│       ├── forms.js
+│       └── site-meta.js
+│
+├── database/
+│   └── supabase-schema.sql    # Schéma PostgreSQL / Supabase
+│
+├── netlify/
+│   └── functions/              # API serveur sécurisée
+│       ├── create-booking.mjs
+│       ├── admin-bookings.mjs
+│       ├── admin-booking.mjs
+│       ├── contract.mjs
+│       └── send-contract.js
+│
+├── package.json
+└── netlify.toml
+```
+
+## 🎯 Principes de développement
+
+- **HTML** : contenu et structure des pages uniquement.
+- **CSS** : design system, composants, responsive et styles de page.
+- **JavaScript** : comportement, navigation, validation et interactions.
+- **Backend** : logique sensible uniquement côté Netlify Functions.
+- **Base de données** : réservations et statuts dans Supabase.
+
+Cette séparation permet de modifier une fonctionnalité sans devoir réécrire toute l’application.
+
+## 🔄 Workflow
 
 ```text
 SITE CLIENT
@@ -33,17 +91,15 @@ Calcul du prix estimatif
    ↓
 Envoi de la demande
    ↓
-SUPABASE — stockage réel
+SUPABASE
    ↓
 ADMIN / DEMANDES
    ↓
 ✓ Approuver
    ↓
-Génération du contrat PDF
+Contrat PDF + email
    ↓
-Email client avec PDF + lien sécurisé
-   ↓
-CLIENT — contract-confirmation.html
+CLIENT / confirmation sécurisée
    ↓
 ✓ Accepter     ✕ Refuser
    ↓
@@ -52,76 +108,25 @@ Paiement
 
 ## 🛡️ Administration
 
-L’espace `/admin/` permet de :
+L’espace `/admin/` est destiné à la gestion des demandes, clients, contrats, paiements, services, tarifs, calendrier et paramètres.
 
-- consulter les demandes enregistrées dans Supabase ;
-- voir le client, la prestation, la date, l’horaire, l’adresse et le montant ;
-- approuver une demande ;
-- refuser une demande ;
-- générer automatiquement le contrat PDF ;
-- envoyer le PDF au client par email ;
-- fournir au client un lien sécurisé de confirmation ;
-- suivre les statuts de la demande.
+Les clés sensibles restent côté serveur. La clé Supabase `service_role` ne doit jamais être exposée dans le navigateur.
 
-L’administration demande une **clé admin** stockée en variable d’environnement Netlify. La clé Supabase `service_role` reste uniquement côté serveur.
-
-## 👤 Parcours client
-
-Le client peut :
-
-1. choisir une prestation ;
-2. obtenir immédiatement une estimation ;
-3. envoyer sa demande sans créer de compte ;
-4. recevoir le contrat après validation administrative ;
-5. ouvrir le lien reçu par email ;
-6. accepter ou refuser le contrat ;
-7. accéder ensuite à l’étape de paiement.
-
-## 📄 Pages principales
-
-| Page | Fichier |
-|---|---|
-| Accueil | `index.html` |
-| Présentation | `presentation.html` |
-| Prestations | `services.html` |
-| Engagement | `experience.html` |
-| Tarifs | `tarifs.html` |
-| Demande / devis | `booking.html` |
-| Contact | `contact.html` |
-| Connexion | `login.html` |
-| Inscription | `register.html` |
-| Espace client | `dashboard.html` |
-| Réservations client | `reservations.html` |
-| Paiement | `payment.html` |
-| Contrat | `contract.html` |
-| Confirmation contrat | `contract-confirmation.html` |
-| Administration | `admin/` |
-
-## ⚙️ Backend production
+## ⚙️ Backend
 
 ### Supabase
 
-Le fichier :
+Le schéma se trouve dans :
 
 ```text
 database/supabase-schema.sql
 ```
 
-contient la structure de la table `bookings`, les statuts, les index et les règles RLS.
-
 ### Netlify Functions
 
-```text
-netlify/functions/
-├── create-booking.mjs
-├── admin-bookings.mjs
-├── admin-booking.mjs
-└── contract.mjs
-```
+Les fonctions serveur gèrent notamment la création des demandes, leur traitement administratif et le workflow de contrat.
 
-### Variables Netlify à configurer
-
-Dans les variables d’environnement du site Netlify :
+Variables d’environnement prévues :
 
 ```text
 SUPABASE_URL=...
@@ -132,90 +137,31 @@ MAIL_FROM=...
 SITE_URL=https://pure-powe.netlify.app
 ```
 
-**Ne jamais mettre ces valeurs secrètes dans le JavaScript du navigateur ou dans GitHub.**
+## 🎨 Design system
 
-## ✉️ Email + contrat PDF
+La direction visuelle utilise une identité premium :
 
-Lorsqu’un administrateur approuve une demande :
+- bleu nuit ;
+- vert sauge ;
+- champagne ;
+- blanc cassé ;
+- cartes et boutons cohérents ;
+- responsive mobile / tablette / desktop ;
+- animations et micro-interactions ;
+- prise en charge de `prefers-reduced-motion`.
 
-- le serveur génère un PDF personnalisé ;
-- le PDF est joint à l’email ;
-- le client reçoit un lien de confirmation ;
-- la décision du client est enregistrée dans Supabase.
+## 📈 Évolution prévue
 
-Le système utilise Resend pour l’envoi transactionnel et ses pièces jointes. citeturn0search0turn0search6
+La base actuelle peut évoluer vers :
 
-## 🎨 Design
-
-- Design premium et responsive
-- Bleu nuit, vert sauge, champagne et blanc cassé
-- Cartes modernes
-- Animations et micro-interactions
-- Compatible mobile / tablette / desktop
-- Respect de `prefers-reduced-motion`
-
-## 🛠️ Technologies
-
-- HTML5
-- CSS3
-- JavaScript ES6+
-- Netlify
-- Netlify Functions
-- Supabase / PostgreSQL
-- Resend
-- PDFKit
-- Google Fonts
-
-## 📁 Structure
-
-```text
-Pure-Power/
-├── index.html
-├── presentation.html
-├── services.html
-├── experience.html
-├── tarifs.html
-├── booking.html
-├── contact.html
-├── login.html
-├── register.html
-├── dashboard.html
-├── profile.html
-├── reservations.html
-├── payment.html
-├── contract.html
-├── contract-confirmation.html
-│
-├── admin/
-│   ├── index.html
-│   ├── reservations.html
-│   ├── clients.html
-│   ├── contracts.html
-│   ├── payments.html
-│   ├── services.html
-│   ├── pricing.html
-│   ├── calendar.html
-│   └── settings.html
-│
-├── database/
-│   └── supabase-schema.sql
-│
-├── netlify/
-│   └── functions/
-│       ├── create-booking.mjs
-│       ├── admin-bookings.mjs
-│       ├── admin-booking.mjs
-│       └── contract.mjs
-│
-├── css/
-└── js/
-```
-
-## 🔐 Sécurité
-
-Les données sensibles passent par les fonctions serveur. Le navigateur ne reçoit pas la clé Supabase `service_role`. L’accès à l’administration utilise une clé serveur dédiée.
-
-Pour un déploiement commercial complet, l’étape suivante recommandée est de remplacer cette clé admin par une authentification administrateur complète avec comptes, rôles et sessions sécurisées.
+- espace client complet ;
+- planning des interventions ;
+- gestion des intervenants ;
+- paiement en ligne ;
+- facturation ;
+- notifications et rappels ;
+- statistiques commerciales ;
+- rôles et authentification administrateur complète.
 
 ## 📞 Contact
 
